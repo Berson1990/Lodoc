@@ -16,5 +16,5 @@ class DocotrsPhone extends Model
 
     protected $table = 'docotrs_phone';
     protected $primaryKey = 'doctors_id';
-    protected $fillable = ['doctors_id', 'phone'];
+    protected $fillable = ['doctors_id', 'hospital_id', 'phone'];
 }

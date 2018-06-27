@@ -11,6 +11,8 @@ use App\Http\Models\Specializations;
 use App\Http\Models\MedicalSpecialties;
 use App\Http\Models\Favourit;
 use App\Http\Models\Week;
+use App\Http\Models\DoctorsRate;
+use DB;
 
 class ReservationsController extends Controller
 {
@@ -24,6 +26,7 @@ class ReservationsController extends Controller
         $this->doctors_calandar = new DoctorsCalendar();
         $this->week = new Week();
         $this->reservations = new Reservations();
+        $this->doctor_rate = new DoctorsRate();
 
     }
 
@@ -75,4 +78,36 @@ class ReservationsController extends Controller
         $this->reservations->find($id)->delete();
         return ['state' => '202'];
     }
+
+    public function RateDoctors()
+    {
+        $input = Request()->all();
+        $output = $this->doctor_rate->create($input);
+        $doctors_id = $output->doctors_id;
+        $this->FinalRateDoctors($doctors_id);
+
+        return ['state' => '202'];
+
+    }
+
+    protected function FinalRateDoctors($doctors_id)
+    {
+        $doctors_rate = $this->doctor_rate
+            ->select(
+                DB::raw('count(rate) as count_rate'),
+                DB::raw('sum(rate)as sum_rate')
+            )
+            ->where('doctors_id', $doctors_id)
+            ->get();
+        global $count_rate;
+        global $sum_rate;
+        foreach ($doctors_rate as $rate) {
+            $count_rate = $rate->count_rate;
+            $sum_rate = $rate->sum_rate;
+
+        }
+        $final_rate = $sum_rate / $count_rate;
+        $this->doctors->find($doctors_id)->update(['rate' => $final_rate]);
+    }
+
 }

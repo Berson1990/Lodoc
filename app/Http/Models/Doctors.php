@@ -10,7 +10,7 @@ class Doctors extends Model
 
     protected $table = 'doctors';
     protected $primaryKey = 'doctors_id';
-    protected $fillable = ['user_id', 'specialization', 'image', 'visita', 'wating', 'type', 'city_id', 'zone_id'];
+    protected $fillable = ['user_id', 'hospital_id','specialization', 'image', 'visita', 'wating', 'type', 'rate','city_id', 'zone_id'];
 
     public function DoctrsSpecializations()
     {
@@ -32,7 +32,7 @@ class Doctors extends Model
         return $this->hasMany('App\Http\Models\DoctorsCalendar', 'doctors_id');
     }
     public function Reservations(){
-        return $this->hasMany('App\Http\Models\Reservations','reservations_id');
+        return $this->hasMany('App\Http\Models\Reservations','doctors_id');
     }
 
     public function City()

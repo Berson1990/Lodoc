@@ -19,11 +19,16 @@ use Illuminate\Http\Request;
 //});
 
 Route::get('medicalspecialties', 'MedicalSpecialtiesController@GetallSpcecialties')->middleware('apilang');
-Route::get('getSpecializations/{specializations_id}/{type}/{user_id}', 'MedicalSpecialtiesController@GetSpecializations')->middleware('apilang');
+Route::get('getSpecializations/{specializations_id}/{type}/{user_id}/{city_id}/{zone_id}', 'MedicalSpecialtiesController@GetSpecializations')->middleware('apilang');
+Route::get('search/{keyword}/{user_id}/{type}/{city_id}/{zone_id}', 'MedicalSpecialtiesController@Search')->middleware('apilang');
 
 // users
 Route::post('register/{lang}', 'UsersController@Register');
 Route::post('login/{lang}', 'UsersController@Login');
+Route::post('facebooklogin', 'UsersController@FaceBookLogin');
+Route::post('twitterlogin', 'UsersController@TwitterLogin');
+Route::post('instgramlogin', 'UsersController@InstgramLogin');
+Route::put('updateuser_token/{id}', 'UsersController@UpdateUserToken');
 // users end
 
 /*fav*/
@@ -38,6 +43,7 @@ Route::delete('deletefrommylist/{id}', 'FavouriteController@DeleteFromFavourit')
 Route::get('getmyresevationslist/{id}', 'ReservationsController@GetMyReservationsList')->middleware('apilang');
 Route::get('avaliabletime/{id}', 'ReservationsController@GetDoctorsCalndars')->middleware('apilang');
 Route::post('createresvations', 'ReservationsController@CreateReservations');
+Route::post('ratedoctors', 'ReservationsController@RateDoctors');
 Route::delete('cancelreservations/{id}', 'ReservationsController@CancelReservations');
 
 /*end*/
@@ -50,3 +56,17 @@ Route::get('getzone/{id}', 'ZoneController@getZone')->middleware('apilang');
 /*end*/
 
 
+/* Static Content*/
+
+
+Route::get('about_app', 'StaticContentController@GetAboutApp')->middleware('apilang');
+Route::get('contact_us', 'StaticContentController@getContactUs')->middleware('apilang');
+Route::get('terms_condition', 'StaticContentController@GetTermsCondition')->middleware('apilang');
+Route::get('socialmedia', 'StaticContentController@SocialMedia');
+
+/*end*/
+
+/* Join As Doctors*/
+Route::post('joinusasdoctor', 'JoinUsController@JoinUsAsDoctor');
+Route::post('joinusashospital', 'JoinUsController@JoinUsAsHospital');
+/*end*/
