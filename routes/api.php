@@ -29,7 +29,7 @@ Route::post('facebooklogin', 'UsersController@FaceBookLogin');
 Route::post('twitterlogin', 'UsersController@TwitterLogin');
 Route::post('instgramlogin', 'UsersController@InstgramLogin');
 Route::put('updateuser_token/{id}', 'UsersController@UpdateUserToken');
-Route::get('push_test/{title}/{token}','UsersController@pushAndroid');
+Route::get('push_test/{token}/{title}','UsersController@pushAndroid');
 
 // users end
 
