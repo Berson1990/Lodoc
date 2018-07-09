@@ -157,5 +157,38 @@ class UsersController extends Controller
         $this->users->find($id)->update(['token_id' => $input['token_id']]);
         return $this->users->where('user_id', $id)->get();
     }
+    
+    
+    function pushAndroid($Token, $Title)
+    {
+
+        $url = "https://fcm.googleapis.com/fcm/send";
+        $token = $Token;
+        $serverKey = 'AAAAqF_qKgA:APA91bEGPPp-9gfkQs7qvOquiOmtOD0zVY7IuDDWtXcPjcHgDkMsNmfwgGLUNRyePswCr_9NTkdijL3tfJDVVabJYVHSuOg7iWGhA_PML9wV4Putr2Qgs-l5p9wFAWow4MGK_hySinvw';
+        $title = $Title;
+        $body = $title;
+        $notification = array('title' => $title, 'text' => $body, 'sound' => 'default', 'badge' => '1');
+        $arrayToSend = array('to' => $token, 'notification' => $notification, 'priority' => 'high');
+        $json = json_encode($arrayToSend);
+        $headers = array();
+        $headers[] = 'Content-Type: application/json';
+        $headers[] = 'Authorization: key=' . $serverKey;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_exec($ch);
+//        if ($response === FALSE) {
+//            die('FCM Send Error: ' . curl_error($ch));
+//        } else {
+//            echo $response;
+//        }
+
+        curl_close($ch);
+
+    }
 
 }
